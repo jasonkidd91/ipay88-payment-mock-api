@@ -9,6 +9,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const options = new DocumentBuilder()
+                    .setBasePath('ipay88')
                     .setTitle('iPay88 Mock API')
                     .setDescription('for simulate iPay88 I/O parameters')
                     .setVersion('1.0')
@@ -17,7 +18,7 @@ async function bootstrap() {
   const appDocument = SwaggerModule.createDocument(app, options, {
     include: [EPaymentModule]
   });
-  SwaggerModule.setup('/ipay88/api', app, appDocument);
+  SwaggerModule.setup('swagger', app, appDocument);
 
   const port = process.env.port || 9001;
   await app.listen(port);
