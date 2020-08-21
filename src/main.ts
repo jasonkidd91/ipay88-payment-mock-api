@@ -9,7 +9,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   
   const options = new DocumentBuilder()
-                    .setBasePath('ipay88')
+                    .addServer('https://sbadevt.ecoworldsales.com/ipay88')
                     .setTitle('iPay88 Mock API')
                     .setDescription('for simulate iPay88 I/O parameters')
                     .setVersion('1.0')
