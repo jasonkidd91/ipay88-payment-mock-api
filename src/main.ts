@@ -17,7 +17,7 @@ async function bootstrap() {
   const appDocument = SwaggerModule.createDocument(app, options, {
     include: [EPaymentModule]
   });
-  SwaggerModule.setup('api', app, appDocument);
+  SwaggerModule.setup('/ipay88/api', app, appDocument);
 
   const port = process.env.port || 9001;
   await app.listen(port);
