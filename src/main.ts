@@ -7,7 +7,6 @@ import { EPaymentModule } from './e-payment/e-payment.module';
 async function bootstrap() {
   const logger = new Logger('app');
   const app = await NestFactory.create(AppModule);
-  app.setGlobalPrefix('ipay88')
   
   const options = new DocumentBuilder()
                     .setBasePath('ipay88')
