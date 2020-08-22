@@ -16,7 +16,10 @@ async function bootstrap() {
                     .build();
 
   const appDocument = SwaggerModule.createDocument(app, options, {
-    include: [EPaymentModule]
+    include: [
+      AppModule,
+      //EPaymentModule,
+    ]
   });
   SwaggerModule.setup('swagger', app, appDocument);
 
