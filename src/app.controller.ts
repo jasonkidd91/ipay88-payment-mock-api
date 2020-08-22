@@ -68,7 +68,7 @@ export class AppController {
     @ApiResponse({ status: 200, description: 'iPay88 Response', type: PaymentResponseDto })
     response(@Body() response: PaymentResponseDto): PaymentResponseDto {
         this.logger.log(`/*****************************************************`);
-        this.logger.log(`iPay88 Response: ${JSON.stringify(response)}`);
+        this.logger.log(`iPay88 Response:\n${JSON.stringify(response,null,2)}`);
         this.logger.log(`/*****************************************************`);
         return response;
     }
@@ -77,7 +77,7 @@ export class AppController {
     @ApiResponse({ status: 200, description: 'iPay88 Backend Response', type: PaymentResponseDto })
     backendResponse(@Body() response: PaymentResponseDto): PaymentResponseDto {
         this.logger.log(`/*****************************************************`);
-        this.logger.log(`iPay88 Backend Response: ${JSON.stringify(response)}`);
+        this.logger.log(`iPay88 Backend Response:\n${JSON.stringify(response,null,2)}`);
         this.logger.log(`/*****************************************************`);
         return response;
     }
