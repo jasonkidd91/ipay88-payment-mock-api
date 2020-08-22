@@ -9,7 +9,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   
   const options = new DocumentBuilder()
-                    .addServer('https://sbadevt.ecoworldsales.com/ipay88')
+                    .addServer(process.env.BASE_URL)
                     .setTitle('iPay88 Mock API')
                     .setDescription('for simulate iPay88 I/O parameters')
                     .setVersion('1.0')
@@ -20,7 +20,7 @@ async function bootstrap() {
   });
   SwaggerModule.setup('swagger', app, appDocument);
 
-  const port = process.env.port || 9001;
+  const port = process.env.PORT || 3000;
   await app.listen(port);
   logger.log(`application listening on port ${port} ...`)
 }
