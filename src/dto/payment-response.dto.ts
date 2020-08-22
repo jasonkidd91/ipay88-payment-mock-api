@@ -1,5 +1,4 @@
-import { IsString, IsOptional, MaxLength, IsNotEmpty, IsNumber, Matches } from "class-validator";
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class PaymentResponseDto {
     @ApiProperty() MerchantCode: string;
@@ -7,14 +6,14 @@ export class PaymentResponseDto {
     @ApiProperty() RefNo: string;
     @ApiProperty() Amount: string;
     @ApiProperty() Currency: string;
-    @ApiProperty() Remark: string;
-    @ApiProperty() TransId: string;
-    @ApiProperty() AuthCode: string;
+    @ApiPropertyOptional() Remark: string;
+    @ApiPropertyOptional() TransId: string;
+    @ApiPropertyOptional() AuthCode: string;
     @ApiProperty() Status: string;
-    @ApiProperty() ErrDesc: string;
+    @ApiPropertyOptional() ErrDesc: string;
     @ApiProperty() Signature: string;
-    @ApiProperty() CCName: string;
-    @ApiProperty() CCNo: string;
-    @ApiProperty() S_bankname: string;
-    @ApiProperty() S_country: string;
+    @ApiPropertyOptional() CCName: string;
+    @ApiPropertyOptional() CCNo: string;
+    @ApiPropertyOptional() S_bankname: string;
+    @ApiPropertyOptional() S_country: string;
 }

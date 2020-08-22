@@ -1,7 +1,7 @@
 import { Matches, IsNotEmpty, IsString, MaxLength } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 
-export class RequeryPaymentRequestDto {
+export class EnquiryRequestDto {
     @IsString()
     @IsNotEmpty()
     @MaxLength(20)

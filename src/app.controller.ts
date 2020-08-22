@@ -9,6 +9,7 @@ export class AppController {
     private logger = new Logger('AppController');
 
     @Get('/payment/ipay88/ecobotanicp2')
+    @ApiResponse({ status: 200, description: 'iPay88 Testing Entry Form', type: String })
     entryForm(): string {
         return `
             <HTML>
@@ -32,8 +33,8 @@ export class AppController {
                 <p>Lang:            <INPUT type="text" name="Lang"          value="UTF-8"></p>
                 <p>SignatureType*:  <INPUT type="text" name="SignatureType" value="SHA256"></p>
                 <p>Signature*:      <INPUT type="text" name="Signature"     value="748b113d075c98ae4b6ecc6b0070fd645039d78d05dfd79be0586e338f09e9b2"></p>
-                ResponseURL*:<br><TEXTAREA name="ResponseURL" cols="80">${process.env.BASE_URL}/response</TEXTAREA><br>
-                BackendURL*:<br><TEXTAREA type="text" name="BackendURL" cols="80">${process.env.BASE_URL}/backend</TEXTAREA><br>
+                ResponseURL*:   <br><TEXTAREA name="ResponseURL" cols="80">${process.env.BASE_URL}/response</TEXTAREA><br>
+                BackendURL*:    <br><TEXTAREA type="text" name="BackendURL" cols="80">${process.env.BASE_URL}/backend</TEXTAREA><br>
                 <br>
                 <INPUT type="submit" value="Proceed with Payment" name="Submit">
             </FORM>
@@ -43,6 +44,7 @@ export class AppController {
     }
 
     @Get('/payment/ipay88/enquiry')
+    @ApiResponse({ status: 200, description: 'iPay88 Testing Enquiry Form', type: String })
     enquiryForm(): string {
         return `
             <HTML>
@@ -67,18 +69,14 @@ export class AppController {
     @Post('/response')
     @ApiResponse({ status: 200, description: 'iPay88 Response', type: PaymentResponseDto })
     response(@Body() response: PaymentResponseDto): PaymentResponseDto {
-        this.logger.log(`/*****************************************************`);
         this.logger.log(`iPay88 Response:\n${JSON.stringify(response,null,2)}`);
-        this.logger.log(`/*****************************************************`);
         return response;
     }
 
     @Post('/backend')
     @ApiResponse({ status: 200, description: 'iPay88 Backend Response', type: PaymentResponseDto })
     backendResponse(@Body() response: PaymentResponseDto): PaymentResponseDto {
-        this.logger.log(`/*****************************************************`);
         this.logger.log(`iPay88 Backend Response:\n${JSON.stringify(response,null,2)}`);
-        this.logger.log(`/*****************************************************`);
         return response;
     }
 

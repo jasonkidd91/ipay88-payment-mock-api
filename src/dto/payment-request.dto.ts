@@ -1,6 +1,5 @@
 import { IsString, IsNotEmpty, IsNumber, MaxLength, Matches, IsOptional, IsUrl } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { LangType } from '../e-payment.model';
 
 
 export class PaymentRequestDto {
@@ -57,7 +56,7 @@ export class PaymentRequestDto {
     @IsString()
     @IsOptional()
     @MaxLength(20)
-    @ApiProperty() Lang: LangType;
+    @ApiProperty() Lang: string;
 
     @IsString()
     @IsNotEmpty()

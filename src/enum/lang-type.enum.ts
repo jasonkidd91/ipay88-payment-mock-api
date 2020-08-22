@@ -1,0 +1,7 @@
+export enum LangType {
+    ENGLISH = "ISO-8859-1",
+    UNICODE = "UTF-8",
+    CHINESE_SIMPLIFIED = "GB2312",
+    CHINESE_SIMPLIFIED_2 = "GD18030",
+    CHINESE_TRADITIONAL = "BIG5",
+}
