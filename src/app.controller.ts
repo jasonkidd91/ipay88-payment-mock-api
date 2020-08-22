@@ -1,14 +1,15 @@
 import { Controller, Logger, Get, Post, Body } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiTags, ApiResponse } from "@nestjs/swagger";
+import { PaymentResponseDto } from "./dto";
 
-@ApiTags('Root')
+@ApiTags('Application')
 @Controller()
 export class AppController {
 
     private logger = new Logger('AppController');
 
     @Get('/payment/ipay88/ecobotanicp2')
-    paymentPage(): string {
+    entryForm(): string {
         return `
             <HTML>
             <HEAD>
@@ -19,12 +20,12 @@ export class AppController {
             <BODY>
             <FORM method="post" name="ePayment" action="https://payment.ipay88.com.my/ePayment/entry.asp">
                 <p>Merchant Code*:  <INPUT type="text" name="MerchantCode"  value="${process.env.MERCHANT_CODE}"></p>
-                <p>PaymentId:       <INPUT type="text" name="PaymentId"     value="6"></p>
+                <p>PaymentId:       <INPUT type="text" name="PaymentId"     value=""></p>
                 <p>RefNo*:          <INPUT type="text" name="RefNo"         value="A00000001"></p>
                 <p>Amount*:         <INPUT type="text" name="Amount"        value="1.00"></p>
                 <p>Currency*:       <INPUT type="text" name="Currency"      value="MYR"></p>
-                <p>ProdDesc*:       <INPUT type="text" name="ProdDesc"      value="Photo Print"></p>
-                <p>UserName*:       <INPUT type="text" name="UserName"      value="John Tan"></p>
+                <p>ProdDesc*:       <INPUT type="text" name="ProdDesc"      value="SBO Booking"></p>
+                <p>UserName*:       <INPUT type="text" name="UserName"      value="John Doe"></p>
                 <p>UserEmail*:      <INPUT type="text" name="UserEmail"     value="john@hotmail.com"></p>
                 <p>UserContact*:    <INPUT type="text" name="UserContact"   value="0126500100"></p>
                 <p>Remark:          <INPUT type="text" name="Remark"        value=""></p>
@@ -41,18 +42,44 @@ export class AppController {
         `;
     }
 
+    @Get('/payment/ipay88/enquiry')
+    enquiryForm(): string {
+        return `
+            <HTML>
+            <HEAD>
+            <STYLE>
+                p input { position: absolute; left: 150px; }
+            </STYLE>
+            </HEAD>
+            <BODY>
+            <FORM method="post" name="ePayment" action="https://payment.ipay88.com.my/epayment/enquiry.asp">
+                <p>Merchant Code*:  <INPUT type="text" name="MerchantCode"  value="${process.env.MERCHANT_CODE}"></p>
+                <p>RefNo*:          <INPUT type="text" name="RefNo"         value="A00000001"></p>
+                <p>Amount*:         <INPUT type="text" name="Amount"        value="1.00"></p>
+                <br>
+                <INPUT type="submit" value="Enquiry Payment" name="Submit">
+            </FORM>
+            </BODY>
+            </HTML>
+        `;
+    }
+
     @Post('/response')
-    response(@Body() response: any) {
+    @ApiResponse({ status: 200, description: 'iPay88 Response', type: PaymentResponseDto })
+    response(@Body() response: PaymentResponseDto): PaymentResponseDto {
         this.logger.log(`/*****************************************************`);
         this.logger.log(`iPay88 Response: ${JSON.stringify(response)}`);
         this.logger.log(`/*****************************************************`);
+        return response;
     }
 
     @Post('/backend')
-    backendResponse(@Body() response: any) {
+    @ApiResponse({ status: 200, description: 'iPay88 Backend Response', type: PaymentResponseDto })
+    backendResponse(@Body() response: PaymentResponseDto): PaymentResponseDto {
         this.logger.log(`/*****************************************************`);
         this.logger.log(`iPay88 Backend Response: ${JSON.stringify(response)}`);
         this.logger.log(`/*****************************************************`);
+        return response;
     }
 
 }
