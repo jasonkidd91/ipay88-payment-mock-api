@@ -83,7 +83,7 @@ export class AppController {
     async enquiry(@Body() request: EnquiryRequestDto): Promise<string> {
         this.logger.log(JSON.stringify(request))
         this.logger.log(JSON.stringify({...request}))
-        const response = await axios.post<string>('https://payment.ipay88.com.my/epayment/enquiry.asp', { ...request });
+        const response = await axios.post<string>('https://payment.ipay88.com.my/epayment/enquiry.asp', JSON.stringify(request));
         const status = response.data;
         this.logger.log(`iPay88 Enquiry ${request.RefNo} Status: ${status}`);
         return status;
