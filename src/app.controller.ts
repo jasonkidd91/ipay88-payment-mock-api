@@ -74,7 +74,7 @@ export class AppController {
         /** Create Transaction into Database then call iPay88 */
         this.logger.log(`iPay88 New Payment Entry:\n${JSON.stringify(request,null,2)}`);
         this.logger.log('asd')
-        return axios.post<any>('https://payment.ipay88.com.my/ePayment/entry.asp', request);
+        return axios.post<any>('https://payment.ipay88.com.my/ePayment/entry.asp', JSON.stringify(request));
     }
     
     @Post('/enquiry')
