@@ -69,14 +69,14 @@ export class AppController {
         `;
     }
 
-    @Post('/payment/ipay88/ecobotanicp2')
-    @ApiResponse({ status: 200, description: 'iPay88 New Payment Entry', type: String })
-    newTransaction(@Body() request: PaymentRequestDto): AxiosPromise<any> {
-        /** Create Transaction into Database then call iPay88 */
-        this.logger.log(`iPay88 New Payment Entry:\n${JSON.stringify(request,null,2)}`);
-        this.logger.log('asd')
-        return axios.post<any>('https://payment.ipay88.com.my/ePayment/entry.asp', JSON.stringify(request));
-    }
+    // @Post('/payment/ipay88/ecobotanicp2')
+    // @ApiResponse({ status: 200, description: 'iPay88 New Payment Entry', type: String })
+    // newTransaction(@Body() request: PaymentRequestDto): AxiosPromise<any> {
+    //     /** Create Transaction into Database then call iPay88 */
+    //     this.logger.log(`iPay88 New Payment Entry:\n${JSON.stringify(request,null,2)}`);
+    //     this.logger.log('asd')
+    //     return axios.post<any>('https://payment.ipay88.com.my/ePayment/entry.asp', JSON.stringify(request));
+    // }
     
     @Post('/enquiry')
     @ApiResponse({ status: 200, description: 'iPay88 Enquiry Payment Status', type: String })
