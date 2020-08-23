@@ -10,7 +10,7 @@ export class AppController {
 
     private logger = new Logger('AppController');
 
-    @Get('/payment/ipay88/entry')
+    @Get('/payment/ipay88/ecobotanicp2')
     @ApiResponse({ status: 200, description: 'iPay88 Testing Entry Form', type: String })
     entryForm(): string {
         return `
@@ -21,7 +21,7 @@ export class AppController {
             </STYLE>
             </HEAD>
             <BODY>
-            <FORM method="post" name="ePayment" action="/payment/ipay88/ecobotanicp2">
+            <FORM method="post" name="ePayment" action="https://payment.ipay88.com.my/ePayment/entry.asp">
                 <p>Merchant Code*:  <INPUT type="text" name="MerchantCode"  value="${config.MERCHANT_CODE}"></p>
                 <p>PaymentId:       <INPUT type="text" name="PaymentId"     value=""></p>
                 <p>RefNo*:          <INPUT type="text" name="RefNo"         value="A00000001"></p>
@@ -38,6 +38,7 @@ export class AppController {
                 ResponseURL*:   <br><TEXTAREA name="ResponseURL" cols="80">${config.BASE_URL}/response</TEXTAREA><br>
                 BackendURL*:    <br><TEXTAREA type="text" name="BackendURL" cols="80">${config.BASE_URL}/backend</TEXTAREA><br>
                 <br>
+                /** Chain Promise to Create Transaction into DB then proceed submit to iPayy **/
                 <INPUT type="submit" value="Proceed with Payment" name="Submit">
             </FORM>
             </BODY>
@@ -56,7 +57,7 @@ export class AppController {
             </STYLE>
             </HEAD>
             <BODY>
-            <FORM method="post" name="ePayment" action="https://payment.ipay88.com.my/epayment/enquiry.asp">
+            <FORM method="post" name="ePayment" action="/enquiry">
                 <p>Merchant Code*:  <INPUT type="text" name="MerchantCode"  value="${config.MERCHANT_CODE}"></p>
                 <p>RefNo*:          <INPUT type="text" name="RefNo"         value="A00000001"></p>
                 <p>Amount*:         <INPUT type="text" name="Amount"        value="1.00"></p>
