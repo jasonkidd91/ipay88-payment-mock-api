@@ -62,7 +62,7 @@ export class AppController {
                 <p>RefNo*:          <INPUT type="text" name="RefNo"         value="A00000001"></p>
                 <p>Amount*:         <INPUT type="text" name="Amount"        value="1.00"></p>
                 <br>
-                <INPUT type="submit" value="Enquiry Payment" name="Submit">
+                <INPUT type="submit" value="Enquiry Payment">
             </FORM>
             </BODY>
             </HTML>
