@@ -22,7 +22,7 @@ export class AppController {
             </HEAD>
             <BODY>
             <FORM method="post" name="ePayment" action="https://payment.ipay88.com.my/ePayment/entry.asp">
-                <p>MerchantCode*:  <INPUT type="text" name="MerchantCode"  value="${config.MERCHANT_CODE}"></p>
+                <p>MerchantCode*:   <INPUT type="text" name="MerchantCode"  value="${config.MERCHANT_CODE}"></p>
                 <p>PaymentId:       <INPUT type="text" name="PaymentId"     value=""></p>
                 <p>RefNo*:          <INPUT type="text" name="RefNo"         value="A00000001"></p>
                 <p>Amount*:         <INPUT type="text" name="Amount"        value="1.00"></p>
@@ -38,7 +38,7 @@ export class AppController {
                 ResponseURL*:   <br><TEXTAREA name="ResponseURL" cols="80">${config.BASE_URL}/response</TEXTAREA><br>
                 BackendURL*:    <br><TEXTAREA type="text" name="BackendURL" cols="80">${config.BASE_URL}/backend</TEXTAREA><br>
                 <br>
-                <p>/** Chain Promise to Create Transaction into DB then proceed submit to iPay **/</p>
+                <p>/** Chain Promise to Create Transaction into DB, Generate Signature, Etc.. then proceed submit to iPay88 **/</p>
                 <INPUT type="submit" value="Proceed with Payment">
             </FORM>
             </BODY>
