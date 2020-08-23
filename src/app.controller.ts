@@ -3,6 +3,7 @@ import { ApiTags, ApiResponse } from "@nestjs/swagger";
 import { PaymentRequestDto, PaymentResponseDto, EnquiryRequestDto } from "./dto";
 import { config } from './config/configuration';
 import axios, { AxiosPromise } from 'axios';
+import { url } from "inspector";
 
 @ApiTags('Application')
 @Controller()
@@ -88,7 +89,11 @@ export class AppController {
             RefNo: 'A00000001',
             Amount: 1.00
         }
-        const response = await axios.post<string>('https://payment.ipay88.com.my/epayment/enquiry.asp', data);
+        const response = await axios({
+            method: 'post',
+            url: 'https://payment.ipay88.com.my/epayment/enquiry.asp',
+            data: data
+        });
         const status = response.data;
         this.logger.log(`iPay88 Enquiry ${request.RefNo} Status: ${status}`);
         return status;
