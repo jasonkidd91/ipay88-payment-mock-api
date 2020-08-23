@@ -22,7 +22,7 @@ export class AppController {
             </HEAD>
             <BODY>
             <FORM method="post" name="ePayment" action="https://payment.ipay88.com.my/ePayment/entry.asp">
-                <p>Merchant Code*:  <INPUT type="text" name="MerchantCode"  value="${config.MERCHANT_CODE}"></p>
+                <p>MerchantCode*:  <INPUT type="text" name="MerchantCode"  value="${config.MERCHANT_CODE}"></p>
                 <p>PaymentId:       <INPUT type="text" name="PaymentId"     value=""></p>
                 <p>RefNo*:          <INPUT type="text" name="RefNo"         value="A00000001"></p>
                 <p>Amount*:         <INPUT type="text" name="Amount"        value="1.00"></p>
@@ -58,7 +58,7 @@ export class AppController {
             </HEAD>
             <BODY>
             <FORM method="post" name="ePayment" action="/enquiry">
-                <p>Merchant Code*:  <INPUT type="text" name="MerchantCode"  value="${config.MERCHANT_CODE}"></p>
+                <p>MerchantCode*:   <INPUT type="text" name="MerchantCode"  value="${config.MERCHANT_CODE}"></p>
                 <p>RefNo*:          <INPUT type="text" name="RefNo"         value="A00000001"></p>
                 <p>Amount*:         <INPUT type="text" name="Amount"        value="1.00"></p>
                 <br>
@@ -81,7 +81,9 @@ export class AppController {
     @Post('/enquiry')
     @ApiResponse({ status: 200, description: 'iPay88 Enquiry Payment Status', type: String })
     async enquiry(@Body() request: EnquiryRequestDto): Promise<string> {
-        const response = await axios.post<string>('https://payment.ipay88.com.my/epayment/enquiry.asp', request);
+        this.logger.log(JSON.stringify(request))
+        this.logger.log(JSON.stringify({...request}))
+        const response = await axios.post<string>('https://payment.ipay88.com.my/epayment/enquiry.asp', { ...request });
         const status = response.data;
         this.logger.log(`iPay88 Enquiry ${request.RefNo} Status: ${status}`);
         return status;
