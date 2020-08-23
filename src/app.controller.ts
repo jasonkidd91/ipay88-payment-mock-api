@@ -1,9 +1,8 @@
 import { Controller, Logger, Get, Post, Body } from "@nestjs/common";
 import { ApiTags, ApiResponse } from "@nestjs/swagger";
-import { PaymentRequestDto, PaymentResponseDto, EnquiryRequestDto } from "./dto";
+import { PaymentResponseDto, EnquiryRequestDto } from "./dto";
 import { config } from './config/configuration';
-import axios, { AxiosPromise } from 'axios';
-import { url } from "inspector";
+import axios from 'axios';
 
 @ApiTags('Application')
 @Controller()
@@ -39,8 +38,8 @@ export class AppController {
                 ResponseURL*:   <br><TEXTAREA name="ResponseURL" cols="80">${config.BASE_URL}/response</TEXTAREA><br>
                 BackendURL*:    <br><TEXTAREA type="text" name="BackendURL" cols="80">${config.BASE_URL}/backend</TEXTAREA><br>
                 <br>
-                /** Chain Promise to Create Transaction into DB then proceed submit to iPayy **/
-                <INPUT type="submit" value="Proceed with Payment" name="Submit">
+                <p>/** Chain Promise to Create Transaction into DB then proceed submit to iPay **/</p>
+                <INPUT type="submit" value="Proceed with Payment">
             </FORM>
             </BODY>
             </HTML>
@@ -69,31 +68,11 @@ export class AppController {
             </HTML>
         `;
     }
-
-    // @Post('/payment/ipay88/ecobotanicp2')
-    // @ApiResponse({ status: 200, description: 'iPay88 New Payment Entry', type: String })
-    // newTransaction(@Body() request: PaymentRequestDto): AxiosPromise<any> {
-    //     /** Create Transaction into Database then call iPay88 */
-    //     this.logger.log(`iPay88 New Payment Entry:\n${JSON.stringify(request,null,2)}`);
-    //     this.logger.log('asd')
-    //     return axios.post<any>('https://payment.ipay88.com.my/ePayment/entry.asp', JSON.stringify(request));
-    // }
     
     @Post('/enquiry')
     @ApiResponse({ status: 200, description: 'iPay88 Enquiry Payment Status', type: String })
     async enquiry(@Body() request: EnquiryRequestDto): Promise<string> {
-        this.logger.log(JSON.stringify(request))
-        this.logger.log(JSON.stringify({...request}))
-        const data = {
-            MerchantCode: 'M27522',
-            RefNo: 'A00000001',
-            Amount: 1.00
-        }
-        const response = await axios({
-            method: 'post',
-            url: 'https://payment.ipay88.com.my/epayment/enquiry.asp',
-            data: data
-        });
+        const response = await axios.get<string>('https://payment.ipay88.com.my/epayment/enquiry.asp', { params: request });
         const status = response.data;
         this.logger.log(`iPay88 Enquiry ${request.RefNo} Status: ${status}`);
         return status;
