@@ -5,16 +5,15 @@ import { AppModule } from './app.module';
 import { config } from './config/configuration';
 
 async function bootstrap() {
-  const isProduction = config.PRODUCTION;
-  const port = config.PORT;
-  const logger = new Logger('Main');
+  const { APP_NAME: appName, BASE_URL: baseUrl, PORT: port, PRODUCTION: isProduction } = config;
+  const logger = new Logger('NestApplication');
   const app = await NestFactory.create(AppModule, {
     logger: isProduction ? ['log', 'warn', 'error'] : undefined
   });
 
   if (!isProduction) {
     const options = new DocumentBuilder()
-      .addServer(config.BASE_URL)
+      .addServer(baseUrl)
       .setTitle('iPay88 Testing API')
       .setDescription('for simulate iPay88 payment flow')
       .setVersion('1.0')
@@ -29,8 +28,8 @@ async function bootstrap() {
 
     SwaggerModule.setup('swagger', app, appDocument);
   }
-  
+
   await app.listen(port);
-  logger.log(`Application listening on port ${port}...`)
+  logger.log(`Application ${appName} listening on port ${port}...`)
 }
 bootstrap();

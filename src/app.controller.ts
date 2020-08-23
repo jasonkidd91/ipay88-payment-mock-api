@@ -68,7 +68,7 @@ export class AppController {
             </HTML>
         `;
     }
-    
+
     @Post('/enquiry')
     @ApiResponse({ status: 200, description: 'iPay88 Enquiry Payment Status', type: String })
     async enquiry(@Body() request: EnquiryRequestDto): Promise<string> {
@@ -82,7 +82,7 @@ export class AppController {
     @ApiResponse({ status: 200, description: 'iPay88 Response', type: PaymentResponseDto })
     response(@Body() response: PaymentResponseDto): PaymentResponseDto {
         /** Query from DB, Perform Checking, Enquiry & Update */
-        this.logger.log(`iPay88 Response:\n${JSON.stringify(response,null,2)}`);
+        this.logger.log(`iPay88 Response:\n${JSON.stringify(response, null, 2)}`);
         return response;
     }
 
@@ -90,7 +90,7 @@ export class AppController {
     @ApiResponse({ status: 200, description: 'iPay88 Backend Response', type: PaymentResponseDto })
     backendResponse(@Body() response: PaymentResponseDto): PaymentResponseDto {
         /** Query from DB, Perform Checking, Enquiry & Update */
-        this.logger.log(`iPay88 Backend Response:\n${JSON.stringify(response,null,2)}`);
+        this.logger.log(`iPay88 Backend Response:\n${JSON.stringify(response, null, 2)}`);
         return response;
     }
 

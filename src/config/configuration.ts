@@ -14,6 +14,7 @@ dotenvExpand(dotenv.config());
  * Environment Variables Assigning
  */
 export const config = {
+    APP_NAME: process.env.APP_NAME || '',
     PORT: process.env.PORT || 3000,
     BASE_URL: process.env.BASE_URL,
     MERCHANT_CODE: process.env.MERCHANT_CODE,
@@ -25,10 +26,10 @@ export const config = {
  * Required Key Validation
  */
 Object.keys(config).forEach(key => {
-    if(!config.PRODUCTION) {
+    if (!config.PRODUCTION) {
         logger.debug(`${key}: ${config[key]}`);
     }
-    
+
     const excluded = [];
     if (config[key] === undefined && !excluded.includes(key)) {
         logger.error(`"${key}" is not defined, please check the .env configuration file`);
