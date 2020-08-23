@@ -86,7 +86,7 @@ export class AppController {
         const data = {
             MerchantCode: 'M27522',
             RefNo: 'A00000001',
-            Amount: '1.00'
+            Amount: 1.00
         }
         const response = await axios.post<string>('https://payment.ipay88.com.my/epayment/enquiry.asp', data);
         const status = response.data;
