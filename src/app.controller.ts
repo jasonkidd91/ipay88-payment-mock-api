@@ -1,6 +1,8 @@
 import { Controller, Logger, Get, Post, Body } from "@nestjs/common";
 import { ApiTags, ApiResponse } from "@nestjs/swagger";
-import { PaymentResponseDto } from "./dto";
+import { PaymentRequestDto, PaymentResponseDto, EnquiryRequestDto } from "./dto";
+import { config } from './config/configuration';
+import axios, { AxiosPromise } from 'axios';
 
 @ApiTags('Application')
 @Controller()
@@ -8,7 +10,7 @@ export class AppController {
 
     private logger = new Logger('AppController');
 
-    @Get('/payment/ipay88/ecobotanicp2')
+    @Get('/payment/ipay88/entry')
     @ApiResponse({ status: 200, description: 'iPay88 Testing Entry Form', type: String })
     entryForm(): string {
         return `
@@ -19,8 +21,8 @@ export class AppController {
             </STYLE>
             </HEAD>
             <BODY>
-            <FORM method="post" name="ePayment" action="https://payment.ipay88.com.my/ePayment/entry.asp">
-                <p>Merchant Code*:  <INPUT type="text" name="MerchantCode"  value="${process.env.MERCHANT_CODE}"></p>
+            <FORM method="post" name="ePayment" action="/payment/ipay88/ecobotanicp2">
+                <p>Merchant Code*:  <INPUT type="text" name="MerchantCode"  value="${config.MERCHANT_CODE}"></p>
                 <p>PaymentId:       <INPUT type="text" name="PaymentId"     value=""></p>
                 <p>RefNo*:          <INPUT type="text" name="RefNo"         value="A00000001"></p>
                 <p>Amount*:         <INPUT type="text" name="Amount"        value="1.00"></p>
@@ -33,8 +35,8 @@ export class AppController {
                 <p>Lang:            <INPUT type="text" name="Lang"          value="UTF-8"></p>
                 <p>SignatureType*:  <INPUT type="text" name="SignatureType" value="SHA256"></p>
                 <p>Signature*:      <INPUT type="text" name="Signature"     value="748b113d075c98ae4b6ecc6b0070fd645039d78d05dfd79be0586e338f09e9b2"></p>
-                ResponseURL*:   <br><TEXTAREA name="ResponseURL" cols="80">${process.env.BASE_URL}/response</TEXTAREA><br>
-                BackendURL*:    <br><TEXTAREA type="text" name="BackendURL" cols="80">${process.env.BASE_URL}/backend</TEXTAREA><br>
+                ResponseURL*:   <br><TEXTAREA name="ResponseURL" cols="80">${config.BASE_URL}/response</TEXTAREA><br>
+                BackendURL*:    <br><TEXTAREA type="text" name="BackendURL" cols="80">${config.BASE_URL}/backend</TEXTAREA><br>
                 <br>
                 <INPUT type="submit" value="Proceed with Payment" name="Submit">
             </FORM>
@@ -55,7 +57,7 @@ export class AppController {
             </HEAD>
             <BODY>
             <FORM method="post" name="ePayment" action="https://payment.ipay88.com.my/epayment/enquiry.asp">
-                <p>Merchant Code*:  <INPUT type="text" name="MerchantCode"  value="${process.env.MERCHANT_CODE}"></p>
+                <p>Merchant Code*:  <INPUT type="text" name="MerchantCode"  value="${config.MERCHANT_CODE}"></p>
                 <p>RefNo*:          <INPUT type="text" name="RefNo"         value="A00000001"></p>
                 <p>Amount*:         <INPUT type="text" name="Amount"        value="1.00"></p>
                 <br>
@@ -66,9 +68,27 @@ export class AppController {
         `;
     }
 
+    @Post('/payment/ipay88/ecobotanicp2')
+    @ApiResponse({ status: 200, description: 'iPay88 New Payment Entry', type: String })
+    newTransaction(@Body() request: PaymentRequestDto): AxiosPromise<string> {
+        /** Create Transaction into Database then call iPay88 */
+        this.logger.log(`iPay88 New Payment Entry:\n${JSON.stringify(request,null,2)}`);
+        return axios.post<string>('https://payment.ipay88.com.my/ePayment/entry.asp', request);
+    }
+    
+    @Post('/enquiry')
+    @ApiResponse({ status: 200, description: 'iPay88 Enquiry Payment Status', type: String })
+    async enquiry(@Body() request: EnquiryRequestDto): Promise<string> {
+        const response = await axios.post<string>('https://payment.ipay88.com.my/epayment/enquiry.asp', request);
+        const status = response.data;
+        this.logger.log(`iPay88 Enquiry ${request.RefNo} Status: ${status}`);
+        return status;
+    }
+
     @Post('/response')
     @ApiResponse({ status: 200, description: 'iPay88 Response', type: PaymentResponseDto })
     response(@Body() response: PaymentResponseDto): PaymentResponseDto {
+        /** Query from DB, Perform Checking, Enquiry & Update */
         this.logger.log(`iPay88 Response:\n${JSON.stringify(response,null,2)}`);
         return response;
     }
@@ -76,6 +96,7 @@ export class AppController {
     @Post('/backend')
     @ApiResponse({ status: 200, description: 'iPay88 Backend Response', type: PaymentResponseDto })
     backendResponse(@Body() response: PaymentResponseDto): PaymentResponseDto {
+        /** Query from DB, Perform Checking, Enquiry & Update */
         this.logger.log(`iPay88 Backend Response:\n${JSON.stringify(response,null,2)}`);
         return response;
     }
