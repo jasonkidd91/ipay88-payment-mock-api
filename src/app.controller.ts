@@ -1,4 +1,4 @@
-import { Controller, Logger, Get, Post, Body } from "@nestjs/common";
+import { Controller, Logger, Get, Post, Body, Param } from "@nestjs/common";
 import { ApiTags, ApiResponse } from "@nestjs/swagger";
 import { PaymentResponseDto, EnquiryRequestDto } from "./dto";
 import { config } from './config/configuration';
@@ -80,18 +80,20 @@ export class AppController {
 
     @Post('/response')
     @ApiResponse({ status: 200, description: 'iPay88 Response', type: PaymentResponseDto })
-    response(@Body() response: PaymentResponseDto): PaymentResponseDto {
+    response(@Param() params: any, @Body() response: PaymentResponseDto): any {
         /** Query from DB, Perform Checking, Enquiry & Update */
-        this.logger.log(`iPay88 Response:\n${JSON.stringify(response, null, 2)}`);
-        return response;
+        this.logger.log(`iPay88 Reponse Params:\n${JSON.stringify(params, null, 2)}`);
+        this.logger.log(`iPay88 Response Body:\n${JSON.stringify(response, null, 2)}`);
+        return { response: response, params: params };
     }
 
     @Post('/backend')
     @ApiResponse({ status: 200, description: 'iPay88 Backend Response', type: PaymentResponseDto })
-    backendResponse(@Body() response: PaymentResponseDto): PaymentResponseDto {
+    backendResponse(@Param() params: any, @Body() response: PaymentResponseDto): any {
         /** Query from DB, Perform Checking, Enquiry & Update */
-        this.logger.log(`iPay88 Backend Response:\n${JSON.stringify(response, null, 2)}`);
-        return response;
+        this.logger.log(`iPay88 Backend Reponse Params:\n${JSON.stringify(params, null, 2)}`);
+        this.logger.log(`iPay88 Backend Response Boyd:\n${JSON.stringify(response, null, 2)}`);
+        return { response: response, params: params };
     }
 
 }
